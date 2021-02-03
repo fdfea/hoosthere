@@ -1,0 +1,11 @@
+* text=auto
+* text eol=lf
+*.sh text
+*.txt text
+*.html text
+*.php text
+*.css text
+*.js text
+*.png binary
+*.ico binary
+*.jpg binary

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome | HoosThere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/sketchy/bootstrap.min.css" />
+    <style>
+      body {
+      padding-top: 70px;
+      }
+      .nav-item {
+      font-size:17px;
+      margin-left:7px;
+      margin-right:7px;
+      color: #cccccc !important;
+      }
+      .active, .nav-item:hover {
+      color: white !important;
+      }
+      .profile-card p {
+      margin-bottom:5px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="/">HoosThere</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="/">Home</a>
+            <a class="nav-item nav-link" href="/search/">Users</a>
+            <a class="nav-item nav-link" href="/board_search/">Bulletin</a>
+            <a class="nav-item nav-link" href="/messages/">Messages</a>
+            <a class="nav-item nav-link" href="/help/">Help</a>
+          </div>
+        </div>
+        <div class="navbar-right">
+          {% if user.is_authenticated %}
+            <a class="nav-item nav-link" href="/logout/">Logout</a>
+          {% else %}
+            <a class="nav-item nav-link" href="{% url 'social:begin' 'google-oauth2' %}">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <br>
+      <h1><i class="fas fa-home"></i>&nbsp;&nbsp;Welcome to HoosThere!</h1>
+      <br>
+      <p>HoosThere is a student matching app made for the students at the University of Virginia. You can find collaborators for your projects and study group friends through our intuitive user search. You must login in order to use the app.</p>
+      {% block content %}
+      {% if user.is_authenticated %}
+      <hr style="margin-top:30px;margin-bottom:30px;">
+      <h3>Hi, {{ user.first_name }}! This is your dashboard.</h3>
+      <p class="mb-4">From here, you can edit your user profile, view and post messages and microjobs to the platform, and search the site.</p>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card border-primary mb-3">
+            <div class="card-header">Profile Information</div>
+            <div class="card-body profile-card" id="profile_card_load">
+              <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+              <div class="text-center">
+                <br>
+                <!--<h3>Loading form</h3>-->
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+              </div>
+            </div>
+            <div class="card-body profile-card" id="profile_card" style="display:none">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-primary mb-3">
+            <div class="card-header">Bulletin</div>
+            <div class="card-body profile-card">
+              <p class="card-text">Recent postings:</p>
+              <ul class="card-text" style="margin-left:18px;padding:0px;">
+                {% for i in posts %}
+                <li style="margin-bottom:8px"><a href="./post/{{ i.id }}">{{ i.message_title }}</a><br><i>{{ i.message_body }}</i><br>by <a href="./users/{{ i.poster }}/">{{ i.poster }}</a> on {{ i.tstamp }}</br></li>
+                {% endfor %}
+              </ul>
+              <div class="text-center">
+                <a class="btn btn-warning" style="margin-top:-5px" href="./board_search/"><i class="fas fa-eye"></i>&nbsp;&nbsp;View more</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-primary mb-3">
+            <div class="card-header">Tools</div>
+            <div class="card-body profile-card">
+                <p>Search Users:</p>
+                <form name="search-form" method="GET" action="{% url 'search' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="search" placeholder="Enter any keywords...">
+                    <div class="input-group-append">
+                      <button class="input-group-text" type="submit" value="Search"><i class="fas fa-search"></i>&nbsp;&nbsp;Search!</button>
+                    </div>
+                  </div>
+                </div>
+                </form>
+
+                <p>Search the Bulletin:</p>
+                <form name="board-search-form" method="GET" action="{% url 'board_search' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="search" placeholder="Enter any keywords...">
+                    <div class="input-group-append">
+                      <button class="input-group-text" type="submit" value="Search"><i class="fas fa-search"></i>&nbsp;&nbsp;Search!</button>
+                    </div>
+                  </div>
+                </div>
+                </form>
+
+
+              <p>Get Help:</p>
+              <p class="card-text"><a class="btn btn-success" href="/help"><i class="fas fa-question-circle"></i>&nbsp;&nbsp;Go to the help page</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <br>
+      <a class="btn btn-danger" href="{% url 'social:begin' 'google-oauth2' %}"><i class="fab fa-google"></i>&nbsp;&nbsp;&nbsp;Login with Google</a><br>
+      {% endif %}
+      {% endblock content %}
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+      function load_profile() {
+          $.ajax({
+          url:"/profile/view/",
+          type:'GET',
+          success: function(data){
+              $("#profile_card").html(data);
+              $("#profile_card").slideDown();
+              $("#profile_card_load").slideUp(300);
+          }});
+      }
+
+      $(document).ready(function(){
+        load_profile();
+      });
+
+      function edit_profile() {
+          $("#profile_card").slideUp();
+          $("#profile_card_load").slideDown();
+          setTimeout(function(){
+              $.ajax({
+              url:"/profile/edit/",
+              type:'GET',
+              success: function(data){
+                  $("#profile_card").html(data);
+                  $("#profile_card").slideDown();
+                  $("#profile_card_load").slideUp();
+              }
+          });}, 500);
+      }
+
+      function submit_profile() {
+          $("#profile_card").slideUp();
+          $("#profile_card_load").slideDown();
+          var data = {
+              csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val(),
+              first_name: $("#first_name_in").val(),
+              last_name: $("#last_name_in").val(),
+              email: $("#email_in").val(),
+              major: $("#major_in").val(),
+              minor: $("#minor_in").val(),
+              classes_taken: $("#classes_taken_in").val()
+          };
+          if ($("#private_in").is(":checked")) {
+              data["private"] = "on";
+          }
+          setTimeout(function(){
+              $.post("/profile/submit/",
+              data,
+              function(data){
+                  $("#profile_card").html(data);
+                  $("#profile_card").slideDown();
+                  $("#profile_card_load").slideUp();
+              });}, 500);
+      }
+    </script>
+  </body>
+</html>

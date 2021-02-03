@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bulletin | HoosThere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/sketchy/bootstrap.min.css" />
+    <style>
+      body {
+      padding-top: 70px;
+      }
+      .nav-item {
+      font-size:17px;
+      margin-left:7px;
+      margin-right:7px;
+      color: #cccccc !important;
+      }
+      .active, .nav-item:hover {
+      color: white !important;
+      }
+      .profile-card p {
+      margin-bottom:5px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="/">HoosThere</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/">Home</a>
+            <a class="nav-item nav-link" href="/search/">Users</a>
+            <a class="nav-item nav-link active" href="/board_search/">Bulletin</a>
+            <a class="nav-item nav-link" href="/messages/">Messages</a>
+            <a class="nav-item nav-link" href="/help/">Help</a>
+          </div>
+        </div>
+        <div class="navbar-right">
+          {% if user.is_authenticated %}
+            <a class="nav-item nav-link" href="/logout/">Logout</a>
+          {% else %}
+            <a class="nav-item nav-link" href="{% url 'social:begin' 'google-oauth2' %}">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+        <br>
+        <h1><i class="fas fa-clipboard-list"></i>&nbsp;&nbsp;Search Bulletin Posts</h1>
+        <br>
+        <form name="board-search-form" method="GET" action="{% url 'board_search' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" name="search" value="{{ searched }}" placeholder="Enter keywords here...">
+            <div class="input-group-append">
+              <button class="input-group-text" type="submit" value="Search"><i class="fas fa-search"></i>&nbsp;&nbsp;Search!</button>
+            </div>
+          </div>
+        </div>
+        </form>
+        <p style="font-size:18px;margin-bottom:18px">Use this search to narrow down the posts.</p>
+        <a class="btn btn-sm btn-success" href="/messageboard/createpost"><i class="fas fa-plus"></i> Create a Post</a>
+        {% if searched %}
+        &nbsp;&nbsp;&nbsp;<a class="btn btn-sm btn-danger" href="./"><i class="fas fa-times"></i> Clear Search Filter</a>
+        {% endif %}
+        <br><br>
+        {% if posts %}
+            {% for post in posts %}
+                <div class="card mb-3">
+                  <div class="card-body">
+                      <!--poster = models.ForeignKey(User, on_delete=models.CASCADE)
+                      category = models.ForeignKey(MessageBoardCategory, on_delete=models.CASCADE)
+                  -->
+
+                    <h4 class="card-title">{{ post.message_title }}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ post.date_posted }}</h6>
+                    <p class="card-text" style="margin-bottom:5px;">{{ post.message_body }}</p>
+                    <p class="card-text" style="">Posted by <a href="/users/{{ post.poster }}/">{{ post.poster }}</a> in <a href="?search={{ post.category }}">{{ post.category }}</a></p>
+                    <a href="{% url 'send_message' post.poster %}" class="btn btn-success card-link btn-sm"><i class="fas fa-envelope"></i>&nbsp;&nbsp;Send a Message to the Author</a>
+                    <a href="/post/{{ post.id }}" class="btn btn-info card-link btn-sm"><i class="fas fa-eye"></i>&nbsp;&nbsp;View Post</a>
+                  </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="font-size:25px">No posts found&nbsp;&nbsp;<i class="fas fa-frown"></i></p>
+        {% endif %}
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% block content %}
+<div class="row">
+  <div class="col-sm-5"><p><b>First Name:</b></p></div>
+  <div class="col-sm-7"><p>{{ user.first_name }}</p></div>
+</div>
+<div class="row">
+  <div class="col-sm-5"><p><b>Last Name:</b></p></div>
+  <div class="col-sm-7"><p>{{ user.last_name }}</p></div>
+</div>
+<div class="row">
+  <div class="col-sm-5"><p><b>Email:</b></p></div>
+  <div class="col-sm-7"><p>{{ user.email }}</p></div>
+</div>
+<div class="row">
+  <div class="col-sm-5"><p><b>Major:</b></p></div>
+  <div class="col-sm-7"><p>{{ user.profile.major }}</p></div>
+</div>
+
+<div class="row">
+  <div class="col-sm-5"><p><b>Minor:</b></p></div>
+  <div class="col-sm-7"><p>{{ user.profile.minor }}</p></div>
+</div>
+
+<div class="row">
+  <div class="col-sm-5"><p class="card-text"><b>Classes Taken:</b></p></div>
+  <div class="col-sm-7"><p class="card-text">{{ user.profile.classes_taken }}</p></div>
+</div>
+
+<div class="row mb-3">
+  <div class="col-sm-5"><p class="card-text"><b>Private:</b></p></div>
+  <div class="col-sm-7"><p class="card-text">{% if user.profile.private %}Yes{% else %}No{% endif %}</p></div>
+</div>
+
+<div class="text-center">
+  <a class="btn btn-danger" href="javascript:edit_profile();"><i class="fas fa-edit"></i>&nbsp;&nbsp;Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a class="btn btn-info" href="/logout"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Logout</a>
+</div>
+{% endblock content %}

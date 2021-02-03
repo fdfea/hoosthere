@@ -1,0 +1,118 @@
+{% block content %}
+<form action="javascript:submit_profile();">
+    {% if error %}
+    {{ error_message }}
+    {% endif %}
+<div class="form-group">
+  <label class="form-control-label">First Name: <span style="color:red"><b>*</b></span></label>
+  <input type="text" value="{{ user.first_name }}" class="form-control" id="first_name_in" required>
+</div>
+
+<div class="form-group">
+  <label class="form-control-label">Last Name: <span style="color:red"><b>*</b></span></label>
+  <input type="text" value="{{ user.last_name }}" class="form-control" id="last_name_in" required>
+</div>
+
+<div class="form-group">
+   <label class="control-label">Email:</label>
+   <input class="form-control" id="email_in" type="text" placeholder="{{ user.email }}" value="{{ user.email }}" readonly="" style="background-color: #f7f8f9;">
+</div>
+
+<div class="form-group">
+  <label class="form-control-label">Major: <span style="color:red"><b>*</b></span></label>
+  <input type="text" value="{{ user.profile.major }}" class="form-control" id="major_in" required>
+</div>
+
+<div class="form-group">
+  <label class="form-control-label">Minor:</label>
+  <input type="text" value="{{ user.profile.minor }}" class="form-control" id="minor_in">
+</div>
+
+<div class="form-group">
+  <label class="form-control-label">Classes Taken: <span style="color:red"><b>*</b></span></label>
+  <input type="text" value="{{ user.profile.classes_taken }}" class="form-control" id="classes_taken_in" required>
+</div>
+
+<div class="form-group">
+  <div class="custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" id="private_in" {% if user.profile.private %}
+    checked=""
+    {% endif %}>
+    <label for="private_in" class="custom-control-label">Hide from user search</label>
+  </div>
+</div>
+<div class="text-center">
+<button class="btn btn-danger" type="submit" value="Submit"><i class="fas fa-check"></i>&nbsp;&nbsp;Submit</button>
+</div>
+    {% csrf_token %}
+    <!--{{ user_form.as_p }}
+    {{ profile_form.as_p }}-->
+</form>
+{% endblock content %}
+
+<!--
+First Name:
+
+Roman
+
+Last Name:
+
+Bohul
+
+Email:
+
+rbb8yd@gmail.com
+
+Major:
+
+Computer Science
+
+Minor:
+
+Mathematics
+
+Classes Taken
+-->
+
+<!--
+<form method="post" novalidate>
+  {% csrf_token %}
+
+  {{ form.non_field_errors }}
+
+  {{ form.source.errors }}
+  {{ form.source }}
+
+  <table border="1">
+
+      <tr>
+        <th>{{ form.name.label_tag }}</th>
+        <td>
+          {{ form.name.errors }}
+          {{ form.name }}
+        </td>
+      </tr>
+
+      <tr>
+        <th>{{ form.email.label_tag }}</th>
+        <td>
+          {{ form.email.errors }}
+          {{ form.email }}
+        </td>
+      </tr>
+
+      <tr>
+        <th>{{ form.message.label_tag }}</th>
+        <td>
+          {{ form.message.errors }}
+          {{ form.message }}
+          <br />
+          {{ form.message.help_text }}
+        </td>
+      </tr>
+
+  </table>
+
+  <button type="submit">Submit</button>
+</form>
+-->

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ user.first_name }} {{ user.last_name }} | HoosThere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/sketchy/bootstrap.min.css" />
+    <style>
+      body {
+      padding-top: 70px;
+      }
+      .nav-item {
+      font-size:17px;
+      margin-left:7px;
+      margin-right:7px;
+      color: #cccccc !important;
+      }
+      .active, .nav-item:hover {
+      color: white !important;
+      }
+      .profile-card p {
+      margin-bottom:5px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="/">HoosThere</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/">Home</a>
+            <a class="nav-item nav-link active" href="/search">Users</a>
+            <a class="nav-item nav-link" href="/board_search/">Bulletin</a>
+            <a class="nav-item nav-link" href="/messages/">Messages</a>
+            <a class="nav-item nav-link" href="/help/">Help</a>
+          </div>
+        </div>
+        <div class="navbar-right">
+          {% if user.is_authenticated %}
+            <a class="nav-item nav-link" href="/logout/">Logout</a>
+          {% else %}
+            <a class="nav-item nav-link" href="{% url 'social:begin' 'google-oauth2' %}">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <br>
+      <a class="btn btn-info" href="/search/"><i class="fas fa-undo-alt"></i>&nbsp;&nbsp;Go Back to Users<a>
+      <br><br>
+      <h3>First Name:</h3>
+      <p style="font-size:21px">{{ user.first_name }}</p>
+      <h3>Last Name:</h3>
+      <p style="font-size:21px">{{ user.last_name }}</p>
+      <h3>Email:</h3>
+      <p style="font-size:21px">{{ user.email }}</p>
+      <h3>Major:</h3>
+      <p style="font-size:21px">{{ user.profile.major }}</p>
+      <h3>Minor:</h3>
+      <p style="font-size:21px">{{ user.profile.minor }}</p>
+      <h3>Classes Taken:</h3>
+      <p style="font-size:21px">{{ user.profile.classes_taken }}</p>
+      <br>
+      <a class="btn btn-info" href="{% url 'send_message' user.username %}"><i class="fas fa-envelope"></i>&nbsp;&nbsp;Send a Message to {{ user.first_name }} {{ user.last_name }}<a>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Message {{ user.first_name}} {{ user.last_name}}| HoosThere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/sketchy/bootstrap.min.css" />
+    <style>
+      body {
+      padding-top: 70px;
+      }
+      .nav-item {
+      font-size:17px;
+      margin-left:7px;
+      margin-right:7px;
+      color: #cccccc !important;
+      }
+      .active, .nav-item:hover {
+      color: white !important;
+      }
+      .profile-card p {
+      margin-bottom:5px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="/">HoosThere</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/">Home</a>
+            <a class="nav-item nav-link" href="/search/">Users</a>
+            <a class="nav-item nav-link" href="/board_search/">Bulletin</a>
+            <a class="nav-item nav-link active" href="/messages/">Messages</a>
+            <a class="nav-item nav-link" href="/help/">Help</a>
+          </div>
+        </div>
+        <div class="navbar-right">
+          {% if user.is_authenticated %}
+            <a class="nav-item nav-link" href="/logout/">Logout</a>
+          {% else %}
+            <a class="nav-item nav-link" href="{% url 'social:begin' 'google-oauth2' %}">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+        <br>
+        <h1><i class="fas fa-envelope"></i>&nbsp;&nbsp;Message {{ user.first_name}} {{ user.last_name}}</h1>
+        <br>
+        <a class="btn btn-info" href="/messages/"><i class="fas fa-undo-alt"></i>&nbsp;&nbsp;View Your Messages<a>
+        <br>
+        <br>
+
+        <form name="message" id="messform" method="POST" action="{% url 'send_message' user.username %}">
+            {% csrf_token %}
+
+            <legend>To: {{ user.first_name}} {{ user.last_name}} ({{ user.username }})</legend>
+            <legend>Enter message: <span style="color:red">*</span></legend>
+            <div class="form-group">
+              <textarea class="form-control" name="content" rows="4" required form="messform"></textarea>
+            </div>
+
+            <button class="btn btn-success" type="submit" value="Submit"><i class="fas fa-dove"></i>&nbsp;&nbsp;Send</button>
+        </form>
+
+
+        <br>
+        <br>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
