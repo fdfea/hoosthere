@@ -20,8 +20,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ixa7#p@azlw!j907_@i3v7&y9%(aa*g1ko++ktr*6-6!^v_ea^'
+#########################[REDACTED]#########################
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -60,8 +61,8 @@ LOGOUT_REDIRECT_URL = '/'
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '85659934777-68uj3alg4qvigp1ma375t1nrjkg854d9.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'mHpTmWjT83Y_22avyoAf4QhR'
+#########################[REDACTED]#########################
+#########################[REDACTED]#########################
 
 TEMPLATES = [
     {
